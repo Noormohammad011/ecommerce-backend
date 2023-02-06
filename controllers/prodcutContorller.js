@@ -109,7 +109,6 @@ const updateProduct = asyncHandler(async (req, res, next) => {
     product = await Product.findByIdAndUpdate(req.params.id, req.body, {
       new: true,
       runValidators: true,
-      useFindAndModify: false,
     })
 
     res.status(200).json({
@@ -241,7 +240,6 @@ const deleteReview = asyncHandler(async (req, res, next) => {
       useFindAndModify: false,
     }
   )
-  
 
   res.status(200).json({
     success: true,

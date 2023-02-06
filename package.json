@@ -10,12 +10,6 @@
     "data:import": "node seeder",
     "data:destroy": "node seeder -d"
   },
-  "builds": [
-    {
-      "src": "package.json",
-      "use": "vercel-sapper"
-    }
-  ],
   "keywords": [],
   "author": "",
   "license": "ISC",
