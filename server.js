@@ -84,6 +84,10 @@ app.use('/api/v1/reviews', reviewsRoutes)
 app.use('/api/v1/upload', uploadRoutes)
 app.use('/api/vi/payment', paymentRoutes)
 
+
+app.get('/', (req, res) => {
+  res.send('API is running....')
+})
 //middleware for error handling
 app.use(notFound)
 app.use(errorHandler)
