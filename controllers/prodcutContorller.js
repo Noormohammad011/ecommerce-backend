@@ -76,8 +76,9 @@ const updateProduct = asyncHandler(async (req, res, next) => {
   let product = await Product.findById(req.params.id)
 
   if (!product) {
-    return next(new ErrorResponse('Product not found', 404))
+    return next(new ErrorResponse(`No document found with that ID`, 404))
   }
+
   let images = []
   if (typeof req.body.images === 'string') {
     images.push(req.body.images)
@@ -105,17 +106,18 @@ const updateProduct = asyncHandler(async (req, res, next) => {
     }
 
     req.body.images = imagesLinks
-
-    product = await Product.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-      runValidators: true,
-    })
-
-    res.status(200).json({
-      success: true,
-      product,
-    })
   }
+
+  product = await Product.findByIdAndUpdate(req.params.id, req.body, {
+    new: true,
+    runValidators: true,
+    useFindAndModify: false,
+  })
+
+  res.status(200).json({
+    success: true,
+    product,
+  })
 })
 
 // @desc    Delete product
