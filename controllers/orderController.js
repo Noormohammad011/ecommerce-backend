@@ -38,11 +38,11 @@ const updateOrderToDelivered = asyncHandler(async (req, res, next) => {
   if (order.orderStatus === 'Delivered') {
     return next(new ErrorResponse(`Order has already been delivered`, 400))
   }
-
-  order.orderItems.forEach(async (item) => {
-    await updateStock(item.product, item.quantity)
-  })
-
+  if (req.body.status === 'Delivered') {
+    order.orderItems.forEach(async (item) => {
+      await updateStock(item.product, item.quantity)
+    })
+  }
   order.orderStatus = req.body.status
   order.deliveredAt = Date.now()
 
@@ -55,11 +55,28 @@ const updateOrderToDelivered = asyncHandler(async (req, res, next) => {
 })
 
 async function updateStock(id, quantity) {
-  const product = await Product.findById(id)
+  Product.findById(id).exec((err, product) => {
+    if (err) {
+      return res.status(400).json({
+        error: 'Could not update product',
+      })
+    }
 
-  product.stock = product.stock - quantity
+    let availableStock = product.stock - quantity
 
-  await product.save({ validateBeforeSave: false })
+    Product.findByIdAndUpdate(
+      id,
+      { stock: availableStock },
+      { new: true, useFindAndModify: false },
+      (err) => {
+        if (err) {
+          return res.status(400).json({
+            error: 'Could not update product',
+          })
+        }
+      }
+    )
+  })
 }
 
 // @desc      Update order to paid
