@@ -59,7 +59,7 @@ npm run data:destroy
 
 ### Demo
 
-Here you can see [:link:demo](https://sparkling-lamington-22b363.netlify.app/) [:link:backend](https://ecommerce-backend-production-42b6.up.railway.app/api/v1/products)
+Here you can see [:link:demo](https://sparkling-lamington-22b363.netlify.app/) [:link:backend](https://mern-ecommerce-rust.vercel.app/api/v1/products)
 
 ### 🚀 About Me
 
